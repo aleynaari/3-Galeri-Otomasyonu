@@ -1,0 +1,102 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="AGaleriModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Araclar">
+    <Key>
+      <PropertyRef Name="AracNo" />
+    </Key>
+    <Property Name="AracNo" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Fiyat" Type="int" />
+    <Property Name="Adet" Type="int" />
+    <Property Name="Marka" Type="varchar" MaxLength="50" />
+    <Property Name="Model" Type="varchar" MaxLength="50" />
+    <Property Name="Yıl" Type="int" />
+    <Property Name="SubeNo" Type="int" />
+    <Property Name="MüsteriNo" Type="int" />
+  </EntityType>
+  <EntityType Name="Kullanici">
+    <Key>
+      <PropertyRef Name="KullaniciNo" />
+    </Key>
+    <Property Name="KullaniciNo" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="KullaniciAd" Type="varchar" MaxLength="50" />
+    <Property Name="KullaniciSifre" Type="varchar" MaxLength="50" />
+    <Property Name="Telefon" Type="int" />
+    <Property Name="Adres" Type="varchar" MaxLength="50" />
+    <Property Name="Mail" Type="varchar" MaxLength="50" />
+    <Property Name="SubeNo" Type="int" />
+  </EntityType>
+  <EntityType Name="Musteri">
+    <Key>
+      <PropertyRef Name="MusteriNo" />
+    </Key>
+    <Property Name="MusteriNo" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="AdSoyad" Type="varchar" MaxLength="50" />
+    <Property Name="Telefon" Type="int" />
+    <Property Name="DTarih" Type="datetime" />
+    <Property Name="Bakiye" Type="int" />
+    <Property Name="Adres" Type="varchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="Subeler">
+    <Key>
+      <PropertyRef Name="SubeNo" />
+    </Key>
+    <Property Name="SubeNo" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Ad" Type="varchar" MaxLength="50" />
+    <Property Name="CalisanSayisi" Type="int" />
+    <Property Name="Ciro" Type="int" />
+  </EntityType>
+  <Association Name="FK_Araclar_Musteri">
+    <End Role="Musteri" Type="Self.Musteri" Multiplicity="0..1" />
+    <End Role="Araclar" Type="Self.Araclar" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Musteri">
+        <PropertyRef Name="MusteriNo" />
+      </Principal>
+      <Dependent Role="Araclar">
+        <PropertyRef Name="MüsteriNo" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Araclar_Subeler">
+    <End Role="Subeler" Type="Self.Subeler" Multiplicity="0..1" />
+    <End Role="Araclar" Type="Self.Araclar" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Subeler">
+        <PropertyRef Name="SubeNo" />
+      </Principal>
+      <Dependent Role="Araclar">
+        <PropertyRef Name="SubeNo" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Kullanici_Subeler">
+    <End Role="Subeler" Type="Self.Subeler" Multiplicity="0..1" />
+    <End Role="Kullanici" Type="Self.Kullanici" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Subeler">
+        <PropertyRef Name="SubeNo" />
+      </Principal>
+      <Dependent Role="Kullanici">
+        <PropertyRef Name="SubeNo" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="AGaleriModelStoreContainer">
+    <EntitySet Name="Araclar" EntityType="Self.Araclar" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Kullanici" EntityType="Self.Kullanici" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Musteri" EntityType="Self.Musteri" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Subeler" EntityType="Self.Subeler" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_Araclar_Musteri" Association="Self.FK_Araclar_Musteri">
+      <End Role="Musteri" EntitySet="Musteri" />
+      <End Role="Araclar" EntitySet="Araclar" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Araclar_Subeler" Association="Self.FK_Araclar_Subeler">
+      <End Role="Subeler" EntitySet="Subeler" />
+      <End Role="Araclar" EntitySet="Araclar" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Kullanici_Subeler" Association="Self.FK_Kullanici_Subeler">
+      <End Role="Subeler" EntitySet="Subeler" />
+      <End Role="Kullanici" EntitySet="Kullanici" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
